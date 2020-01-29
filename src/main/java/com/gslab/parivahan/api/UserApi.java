@@ -54,7 +54,8 @@ public interface UserApi {
         method = RequestMethod.GET)
 	ResponseEntity<List<UserVO>> getAllUsers(
 			@ApiParam(value = "name", required = false, defaultValue = "") @RequestParam(value = "name", required = false) String name,
-			@ApiParam(value = "gsId", required = false, defaultValue = "") @RequestParam(value = "gsId", required = false) String gsId);
+			@ApiParam(value = "gsId", required = false, defaultValue = "") @RequestParam(value = "gsId", required = false) String gsId,
+			@ApiParam(value = "email", required = false, defaultValue = "") @RequestParam(value = "email", required = false) String email);
 
     @ApiOperation(value = "Add user", nickname = "addUser", notes = "add User", response = UserVO.class, tags={ "developers", })
     @ApiResponses(value = { 

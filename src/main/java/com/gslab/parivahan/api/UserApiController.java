@@ -61,11 +61,9 @@ public class UserApiController implements UserApi {
 	@Override
 	public ResponseEntity<List<UserVO>> getAllUsers(
 			@ApiParam(value = "name", required = false, defaultValue = "") @RequestParam(value = "name", required = false) String name,
-			@ApiParam(value = "username", required = false, defaultValue = "") @RequestParam(value = "username", required = false) String username) {
+			@ApiParam(value = "username", required = false, defaultValue = "") @RequestParam(value = "username", required = false) String username,
+			@ApiParam(value = "email", required = false, defaultValue = "") @RequestParam(value = "email", required = false) String email) {
 		List<UserVO> users = new ArrayList<UserVO>();
-		
-		
-		String email = "";
 		if (Boolean.parseBoolean(env.getRequiredProperty("parivahan.auth.ldap.enabled"))) {
 			ParivahanUserContext usercontext = ((ParivahanUserContext) SecurityContextHolder.getContext()
 					.getAuthentication().getPrincipal());

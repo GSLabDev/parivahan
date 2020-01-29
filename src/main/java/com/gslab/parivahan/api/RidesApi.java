@@ -63,7 +63,8 @@ public interface RidesApi {
 	ResponseEntity<List<Ride>> getRecentRides(
 			@ApiParam(value = "", required = true, defaultValue = "application/json") @RequestHeader(value = "Content-Type", required = true) String contentType,
 			@ApiParam(value = "", required = true) @RequestParam int pageSize,
-			@ApiParam(value = "", required = true) @RequestParam int startIndex);
+			@ApiParam(value = "", required = true) @RequestParam int startIndex,
+			@ApiParam(value = "", required = false) @RequestParam String email);
 
 	@ApiOperation(value = "CountRides", nickname = "CountRides", notes = "get ride count", response = Ride.class, responseContainer = "List", tags = {
 			"developers", })

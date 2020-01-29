@@ -38,6 +38,8 @@ public UserVO() {
 		this.email = email;
 		if(!StringUtils.isBlank(firstName) && !StringUtils.isBlank(lastName))
 			this.name = firstName+" "+lastName;
+		else
+			this.name=username;
 		this.mobileNumber = mobileNumber;
 		this.gender = gender;
 		this.firstName = firstName;

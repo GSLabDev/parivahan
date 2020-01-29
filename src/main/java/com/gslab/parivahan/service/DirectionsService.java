@@ -17,7 +17,6 @@ package com.gslab.parivahan.service;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -34,11 +33,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties.Env;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.google.maps.DirectionsApi;
 import com.google.maps.DirectionsApiRequest;
@@ -244,8 +241,13 @@ public class DirectionsService implements IDirectionsService {
 		}
 		//Adding Shuttle ride
 		if (Vehicle.SHUTTLE.toString().equalsIgnoreCase(userRide.getVehicle().toString())) {
-			addShuttleRide(userRide, RideConstants.GSLAB_BANER, RideConstants.ENCODED_PATH_BANER_ADISA,
-					RideConstants.GSLAB_ADISA, RideConstants.ENCODED_PATH_ADISA_BANER);
+			addShuttleRide(userRide,
+					new LatLng(Double.parseDouble(env.getProperty("parivahan.ride.shuttle.startlocation.lat")),
+							Double.parseDouble(env.getProperty("parivahan.ride.shuttle.startlocation.lang"))),
+					env.getProperty("parivahan.ride.shuttle.startToend.encodedPath"),
+					new LatLng(Double.parseDouble(env.getProperty("parivahan.ride.shuttle.endlocation.lat")),
+							Double.parseDouble(env.getProperty("parivahan.ride.shuttle.endlocation.lang"))),
+					env.getProperty("parivahan.ride.shuttle.endTostart.encodedPath"));
 			return userRide;
 		}
 
@@ -866,6 +868,13 @@ public class DirectionsService implements IDirectionsService {
 			} catch (Exception e) {
 				log.error("Failed to add schedule for departure date : "+schedule);
 			}
+		}
+		if(shuttleScheduleVO.getDirection()) {
+			shuttleScheduleVO.setStartLocation(env.getProperty("parivahan.ride.shuttle.startlocation.name"));
+			shuttleScheduleVO.setEndLocation(env.getProperty("parivahan.ride.shuttle.endlocation.name"));
+		}else {
+			shuttleScheduleVO.setStartLocation(env.getProperty("parivahan.ride.shuttle.endlocation.name"));
+			shuttleScheduleVO.setEndLocation(env.getProperty("parivahan.ride.shuttle.startlocation.name"));
 		}
 		return shuttleScheduleVO;
 		

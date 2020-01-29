@@ -23,6 +23,7 @@ public class ShuttleScheduleVO {
 	private Integer totalSeats;
 	private UserVO user;
 	List<String> schedules;
+	private boolean direction;
 
 	public String getStartLocation() {
 		return startLocation;
@@ -62,6 +63,14 @@ public class ShuttleScheduleVO {
 
 	public void setSchedules(List<String> schedules) {
 		this.schedules = schedules;
+	}
+	
+	public boolean getDirection() {
+		return direction;
+	}
+
+	public void setDirection(boolean direction) {
+		this.direction = direction;
 	}
 
 }

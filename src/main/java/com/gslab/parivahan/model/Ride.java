@@ -103,6 +103,9 @@ public class Ride   {
 	  @JsonProperty("rideRequests")
 	  private List<RideRequestVO> rideRequests;
 	  
+	  @JsonProperty("direction")
+	  private boolean direction;
+	  
 
 
 	public Ride(String startLocation, String endLocation, Integer totalSeats) {
@@ -603,5 +606,13 @@ private LatLng getLatLng(final String coordinate){
         return new LatLng(Double.parseDouble(latLongs[0]), Double.parseDouble(latLongs[1]));
     }
 	return null;
+}
+
+public boolean getDirection() {
+	return direction;
+}
+
+public void setDirection(boolean direction) {
+	this.direction = direction;
 }
 }

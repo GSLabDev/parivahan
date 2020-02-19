@@ -135,7 +135,6 @@ ParivahanLoginProcessingFilter filter = new ParivahanLoginProcessingFilter(login
 	}
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		//http.authorizeRequests().anyRequest().fullyAuthenticated().and().httpBasic().and().csrf().disable();
 		List<String> permitAllEndpointList = Arrays.asList(AUTHENTICATION_URL,REFRESH_TOKEN_URL);
 		http.csrf().disable();
 		
@@ -147,6 +146,7 @@ ParivahanLoginProcessingFilter filter = new ParivahanLoginProcessingFilter(login
 				.authorizeRequests()
 				.antMatchers(API_ROOT_URL)
 				.authenticated().and()
+				.addFilterBefore(new SimpleCORSFilter(), UsernamePasswordAuthenticationFilter.class)
 				.addFilterBefore(buildAjaxLoginProcessingFilter(AUTHENTICATION_URL),
 						UsernamePasswordAuthenticationFilter.class)
 				.addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(permitAllEndpointList,API_ROOT_URL),
@@ -154,24 +154,4 @@ ParivahanLoginProcessingFilter filter = new ParivahanLoginProcessingFilter(login
 	      }
 	}
 
-	
-	/*
-	 * @Bean public AuthenticationProvider ldapAuthenticationProvider() throws
-	 * Exception { String ldapServerUrl = ldapUrls + ldapBaseDn;
-	 * DefaultSpringSecurityContextSource contextSource = new
-	 * DefaultSpringSecurityContextSource(ldapServerUrl); String ldapManagerDn =
-	 * ldapSecurityPrincipal; contextSource.setUserDn(ldapManagerDn); String
-	 * ldapManagerPassword = ldapPrincipalPassword;
-	 * contextSource.setPassword(ldapManagerPassword);
-	 * contextSource.afterPropertiesSet(); LdapUserSearch ldapUserSearch = new
-	 * FilterBasedLdapUserSearch("", "(&(objectClass=user)(" + ldapUserDnPattern +
-	 * "))", contextSource); BindAuthenticator bindAuthenticator = new
-	 * BindAuthenticator(contextSource);
-	 * bindAuthenticator.setUserSearch(ldapUserSearch); LdapAuthenticationProvider
-	 * ldapAuthenticationProvider = new
-	 * LdapAuthenticationProvider(bindAuthenticator, new
-	 * DefaultLdapAuthoritiesPopulator(contextSource, ""));
-	 * ldapAuthenticationProvider.setUserDetailsContextMapper(userContextMapper);
-	 * return ldapAuthenticationProvider; }
-	 */
 }

@@ -15,6 +15,8 @@
  */
 package com.gslab.parivahan.api;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +36,8 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api")
 public class AuthenticationController {
 	
-	
+	@Autowired
+	private Environment env;
 
 	/**
 	 * Implemented by Spring Security
@@ -57,5 +60,13 @@ public class AuthenticationController {
 	public void springSecurityLogout() {
 		throw new IllegalStateException(
 				"This method shouldn't be called. It's implemented by spring security filters.");
+	}
+	
+	
+	@ApiOperation(value = "isLDAPEnabled", notes = "Is ldap enabled.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "") })
+	@RequestMapping(value = RideConstants.VERSION_1+"/ldap/enable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public String isLDAPEnabled() {
+		return env.getProperty("parivahan.auth.ldap.enabled");
 	}
 }
